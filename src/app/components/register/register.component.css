@@ -1,0 +1,47 @@
+form {
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #12130892;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+  
+  button:hover {
+    background-color: #070703d8;
+  }
+  
+  button:disabled {
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .center {
+    text-align: center;
+  }
