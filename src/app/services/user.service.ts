@@ -1,28 +1,40 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private jwtHelper: JwtHelperService) { }
+  private localStorage: Storage | null = null;
+
+  constructor(
+    private jwtHelper: JwtHelperService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.localStorage = window.localStorage;
+    }
+  }
+
+  private getStorage(): Storage | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return this.localStorage;
+    }
+    return null;
+  }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    const storage = this.getStorage();
+    return storage ? storage.getItem('token') : null;
   }
 
   setToken(accessToken: string): void {
-    localStorage.setItem('token', accessToken);
-  }
-/*
-  getRole(): string | null {
-    const token = this.getToken();
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.role;
+    const storage = this.getStorage();
+    if (storage) {
+      storage.setItem('token', accessToken);
     }
-    return null;
-  }*/
+  }
 
   isLoggedIn(): boolean {
     const token = this.getToken();
@@ -30,6 +42,9 @@ export class UserService {
   }
 
   logOut(): void {
-    localStorage.removeItem('token'); // Clear only the token
+    const storage = this.getStorage();
+    if (storage) {
+      storage.removeItem('token');
+    }
   }
 }

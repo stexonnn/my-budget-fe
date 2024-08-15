@@ -13,23 +13,36 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { RegisterComponent } from './components/register/register.component';
-import { HttpClientModule} from '@angular/common/http';
 
+
+
+import { RegisterComponent } from './components/register/register.component';
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatOptionModule } from '@angular/material/core';  
+import { MatSelectModule } from '@angular/material/select';
+
 import { appConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AccountComponent } from './components/account/account.component';
+import { CreateAccountDialogComponent } from './components/create-account-dialog/create-account-dialog.component';
+import { TokenInterceptor } from './shared/tokenInterceptor';
+import { InvalidTokenInterceptor } from './shared/InvalidTokenInterceptor';
 appConfig
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    AccountComponent,
+    CreateAccountDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +53,10 @@ appConfig
     MatMenuModule,
     MatSidenavModule,
     MatListModule,
+    MatDialogModule,
+    MatOptionModule,
+    MatSelectModule,
+    FormsModule,
     RouterModule,
     MatSnackBarModule,
     HttpClientModule,
@@ -49,18 +66,19 @@ appConfig
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
-        // Optionally define how to retrieve the token here if needed
-        // tokenGetter: () => {
-        //   return localStorage.getItem('token');
-        // },
-        allowedDomains: [], // Optionally specify allowed domains
-        disallowedRoutes: [] // Optionally specify disallowed routes
+       
+        allowedDomains: [], 
+        disallowedRoutes: [] 
       }
-    })
+    }),
+    
+
   ],
   providers: [
     provideClientHydration(),
-    appConfig.providers
+    appConfig.providers,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

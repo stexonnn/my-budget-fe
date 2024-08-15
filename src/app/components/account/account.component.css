@@ -1,0 +1,28 @@
+.account-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%; 
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .account-name {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .account-balance {
+    flex: 1;
+    text-align: right;
+  }

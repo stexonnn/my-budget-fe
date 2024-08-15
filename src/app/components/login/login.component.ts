@@ -29,8 +29,8 @@ export class LoginComponent {
       const authRequest = new AuthRequestDTO(loginData);
       this.auth.login(authRequest).subscribe(
         response => {
-          this.userService.setToken(response.token);     
-          this.router.navigate(['register']).then(()=>{location.reload();});
+          this.userService.setToken(response.token);
+          this.router.navigate(['/account']);
         },
         error => {
           if (error.status === 400) {
