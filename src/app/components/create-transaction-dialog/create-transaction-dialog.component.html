@@ -1,0 +1,32 @@
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div>
+        <label for="description">Description:</label>
+        <input id="description" formControlName="description" type="text">
+      </div>
+  
+      <div>
+        <label for="type">Type:</label>
+        <select id="type" formControlName="type">
+          <option *ngFor="let type of transactionTypes" [value]="type.name">{{ type.name }}</option>
+        </select>
+      </div>
+  
+      <div>
+        <label for="account">Account:</label>
+        <select id="account" formControlName="account">
+          <option *ngFor="let account of userAccounts" [value]="account.id">{{ account.name }}</option>
+        </select>
+      </div>
+  
+      <div>
+        <label for="amount">Amount:</label>
+        <input id="amount" formControlName="amount" type="number">
+      </div>
+    </mat-dialog-content>
+  
+    <mat-dialog-actions>
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-button type="submit">Add</button>
+    </mat-dialog-actions>
+  </form>

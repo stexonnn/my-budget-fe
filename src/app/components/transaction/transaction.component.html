@@ -1,0 +1,31 @@
+<div class="transaction-container">
+
+   
+<div class="transaction-list-container">
+    <div *ngFor="let transaction of transactions" class="transaction-item">
+      <div class="left">
+      <div class="transaction-description">{{ transaction.description }}</div>
+      <div class="transaction-account">{{ transaction.account }}</div>
+      </div>
+      <div class="transaction-amount">{{ transaction.amount }}</div>
+    </div>
+    <button mat-button (click)="openTransactionDialog()">Add New Transaction</button>
+    <app-footer></app-footer>
+
+  </div>
+
+  <div class="account-list">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Account</mat-label>
+      <mat-select (selectionChange)="onAccountChange($event)">
+        <mat-option value="all">All accounts</mat-option>
+        <mat-option *ngFor="let account of accounts" [value]="account.id">{{ account.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  </div>
+
+
+
+

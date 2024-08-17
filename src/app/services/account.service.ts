@@ -16,6 +16,10 @@ export class AccountService {
     return this.http.get<AccountDTO[]>(`${environment.apiUrl}account/getAccounts`);
   }
 
+  getTotalValue(): Observable<number>{
+    return this.http.get<number>(`${environment.apiUrl}user/getTotalValue`);
+  }
+
   saveAccount(account: AccountDTO): Observable<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<AccountDTO>((`${environment.apiUrl}account/createAccount`),account,{headers});

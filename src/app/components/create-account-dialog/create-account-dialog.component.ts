@@ -29,6 +29,7 @@ export class CreateAccountDialogComponent {
   onSubmit() {
     if (this.createAccountForm.valid) {
       const accountDTO: AccountDTO = {
+        id:0,
         name: this.createAccountForm.get('name')?.value,
         balance: this.createAccountForm.get('balance')?.value,
         currency: this.createAccountForm.get('currency')?.value
