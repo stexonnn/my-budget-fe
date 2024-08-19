@@ -37,6 +37,7 @@ import { InvalidTokenInterceptor } from './shared/InvalidTokenInterceptor';
 import { TransactionComponent } from './components/transaction/transaction.component';
 import { TransactionDialogComponent } from './components/create-transaction-dialog/create-transaction-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SettingsComponent } from './components/settings/settings.component';
 appConfig
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ appConfig
     CreateAccountDialogComponent,
     TransactionComponent,
     TransactionDialogComponent,
-    FooterComponent
+    FooterComponent,
+    SettingsComponent
     
   ],
   imports: [

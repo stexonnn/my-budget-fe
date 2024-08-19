@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -12,8 +13,10 @@ import { Router } from '@angular/router';
 })
 export class CreateAccountDialogComponent {
   createAccountForm: FormGroup;
+  currencies: string[] = []
 
-  constructor(private accountService: AccountService,
+  constructor(private currencyService: CurrencyService,
+    private accountService: AccountService,
     private fb: FormBuilder,
     private router: Router,
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
@@ -24,16 +27,25 @@ export class CreateAccountDialogComponent {
       balance: [0, [Validators.required, Validators.min(0)]],
       currency: ['', Validators.required]
     });
+    this.loadCurrencies();
+  }
+
+  loadCurrencies() {
+    this.currencyService.getAllCurrencies().subscribe( (currencies) => { 
+      this.currencies = currencies;
+    })
   }
 
   onSubmit() {
     if (this.createAccountForm.valid) {
       const accountDTO: AccountDTO = {
-        id:0,
+        id: 0,
         name: this.createAccountForm.get('name')?.value,
         balance: this.createAccountForm.get('balance')?.value,
-        currency: this.createAccountForm.get('currency')?.value
+        currency: this.createAccountForm.get('currency')?.value,
+        balanceInDefaultCurrency: 0
       };
+      alert(accountDTO.balance)
 
       this.accountService.saveAccount(accountDTO).subscribe(
         (account) => {

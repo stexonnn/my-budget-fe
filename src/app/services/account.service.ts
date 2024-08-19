@@ -21,8 +21,14 @@ export class AccountService {
   }
 
   saveAccount(account: AccountDTO): Observable<any> {
+    alert(account.currency);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<AccountDTO>((`${environment.apiUrl}account/createAccount`),account,{headers});
+  }
+  
+  deleteAllData(): Observable<any> {
+    alert("brise front");
+    return this.http.delete(`${environment.apiUrl}user/delete`);
   }
 
 }

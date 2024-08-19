@@ -2,6 +2,8 @@
     <div *ngFor="let account of accounts" class="account-item">
       <div class="account-name">{{ account.name }}</div>
       <div class="account-balance">{{ account.balance | currency:account.currency }}</div>
+      Vrednost :  {{account.balanceInDefaultCurrency}}
+      <div *ngIf="account.balance === account.balanceInDefaultCurrency" >{{ account.balanceInDefaultCurrency | currency:account.currency }} </div>
     </div>
     <button mat-raised-button color="primary" (click)="openCreateAccountDialog()">Create New Account</button>
 

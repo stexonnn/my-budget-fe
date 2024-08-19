@@ -1,0 +1,23 @@
+<div class="account-list-container">
+    <div class="account-item">
+      <div class="account-balance">
+        Set default currency:
+        <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="updateDefaultValue($event)">
+              <mat-option  value="EUR">EUR</mat-option>
+              <mat-option  value="BTC">BTC</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+    </div>
+    <div class="account-item">
+        <div class="account-balance">asd</div>
+      </div>
+      <div class="account-item">
+        <a  href="#" (click)="deleteAllData($event)">Delete all data</a>
+      </div>
+
+      <div class="account-item">
+        {{lastUpdatedDate}}
+      </div>
+    </div>
