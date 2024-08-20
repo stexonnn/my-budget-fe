@@ -1,3 +1,12 @@
 <div class="footer">
-    <p>Total Value of All Accounts: {{ totalValue | currency }}</p>
+  <hr>
+  <div class="container">
+  <div class="left">
+    <a href="#"  class="btn" (click)="openTransactionDialog($event)">Add New Transaction</a>
+  </div>
+  
+  <div class="right">
+   <p>Available: {{ totalValue }} {{ defaultCurrency }}</p>
+  </div>
+  </div>
   </div>

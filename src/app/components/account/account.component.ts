@@ -4,6 +4,7 @@ import { AccountService } from '../../services/account.service';
 import { CreateAccountDialogComponent } from '../create-account-dialog/create-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-account',
@@ -13,11 +14,12 @@ import { Router } from '@angular/router';
 export class AccountComponent {
 
   accounts: AccountDTO[] = [];
-
-  constructor(private accountService: AccountService, public dialog: MatDialog,private router: Router) {}
+  defaultCurrency: string ="EUR";
+  constructor(private accountService: AccountService, public dialog: MatDialog,private router: Router, private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
     this.loadAccounts();
+    this.getDefaultCurrency();
   }
 
   openCreateAccountDialog(): void {
@@ -36,11 +38,20 @@ export class AccountComponent {
   loadAccounts(): void {
     this.accountService.getUserAccounts().subscribe(
       (accounts: AccountDTO[]) => {
+        accounts.filter(acc=>acc.currency).map(acc => acc.currency.toUpperCase());
         this.accounts = accounts;
       },
       error => {
         console.error('Error fetching accounts:', error);
       }
+    );
+  }
+
+  getDefaultCurrency() {
+    this.currencyService.getDefaultCurrency().subscribe(response => {
+      console.log(response)
+      console.log(response["currency"])
+      this.defaultCurrency=response["currency"].toUpperCase()}
     );
   }
 

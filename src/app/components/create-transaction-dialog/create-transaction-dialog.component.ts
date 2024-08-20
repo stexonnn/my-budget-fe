@@ -63,7 +63,7 @@ export class TransactionDialogComponent implements OnInit {
     if (this.transactionForm.valid) {
       const transactionData = this.transactionForm.value;
       const transactionDTO = new TransactionDTO(transactionData.description, transactionData.amount,
-        transactionData.type, transactionData.account);
+        transactionData.type, transactionData.account,0,"","");
 
       this.transactionService.saveTransaction(transactionDTO) .subscribe(
         response => console.log('Save successful:', response),

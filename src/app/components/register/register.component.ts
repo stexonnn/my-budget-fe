@@ -46,11 +46,11 @@ export class RegisterComponent {
               this.router.navigate(['/login']);
             }),
             catchError(error =>{ if (error instanceof HttpErrorResponse) {
-              this.snackBar.open(this.mapErrorMessage(error.error.message), undefined, {
+              this.snackBar.open(error.error.message, undefined, {
                 duration: 2000,
               });
             } else {
-              this.snackBar.open(this.mapErrorMessage(error.message), undefined, {
+              this.snackBar.open(error.error.message, undefined, {
                 duration: 2000,
               });
             }
@@ -63,7 +63,7 @@ export class RegisterComponent {
           });
         }
       }
-    
+    /*
     mapErrorMessage(errorMessage: string): string {    
       if (errorMessage.includes('email')) {
         return 'Email is already in use. Please choose a different email.';
@@ -72,5 +72,5 @@ export class RegisterComponent {
       } else {
         return 'An unknown error occurred. Please try again later.';
       }
-    }
+    }*/
   }

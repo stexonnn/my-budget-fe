@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { AccountService } from '../../services/account.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CurrencyService } from '../../services/currency.service';
+import { AccountComponent } from '../account/account.component';
+import { format } from 'path';
 
 @Component({
   selector: 'app-settings',
@@ -10,27 +12,33 @@ import { CurrencyService } from '../../services/currency.service';
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent {
-  lastUpdatedDate!: Date;
+  lastUpdatedDate!: string;
+  defaultCurrency: string ="EUR";
 
-  constructor(private accountService: AccountService, private currencyService: CurrencyService, private snackBar: MatSnackBar) {}
+  constructor(private accountService: AccountService, private currencyService: CurrencyService, private snackBar: MatSnackBar)  {}
 
   ngOnInit() {
     this.lastUpdated();
   }
 
    lastUpdated() {
-    this.currencyService.getLastUpdated().subscribe(date => 
-      this.lastUpdatedDate = date
+    this.currencyService.getLastUpdated().subscribe(date => {
+      this.lastUpdatedDate = date["lastUpdated"]}
     );
     }
   
-    updateDefaultValue(event:any) {
+    updateDefaultCurrency(event:any) {
       this.currencyService.updateDefaultCurrency(event.value).subscribe({
         next: (response) => {
-          console.log('Default currency updated successfully:', response);
+          this.defaultCurrency=event.value;
+          this.snackBar.open('Currency updated successfully', undefined, {
+            duration: 2000,
+          });
         },
         error: (error) => {
-          console.error('Error updating default currency:', error);
+          this.snackBar.open('Error updating default currency', undefined, {
+            duration: 2000,
+          });
         }
       });
     }  
@@ -55,6 +63,7 @@ export class SettingsComponent {
         }
     );
   }
+
 
 
 }

@@ -1,20 +1,62 @@
-.account-list-container {
+
+body, html {
+    height: 100%; 
+    margin: 0; 
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content {
+    padding-right: -5em;
+    margin-top: 3em;
+    flex: 1; 
+  }
+  
+  .footer {
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
+}
+
+
+.settings-list-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 60%;
+    margin: 0 auto;
 
   }
+
+  mat-form-field {
+    width: 5em;
+  }
   
-  .account-item {
+  .settings-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
     width: 50%; 
-    margin: 10px 0;
+    margin: 0 auto;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
   }
+  
+   a {
+    text-decoration: none; 
+    color: #090a0a; 
+  }
+  
+  a:hover {
+    text-decoration: none; 
+    color: #090b0c89; 
+  }
+
   

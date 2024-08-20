@@ -7,6 +7,7 @@ import { AccountDTO } from '../../dto/AccountDTO';
 import { AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-transaction',
@@ -17,11 +18,13 @@ export class TransactionComponent {
 
    transactions: TransactionDTO[] = [];
    accounts: AccountDTO[] = []
-
+   defaultCurrency: string= "EUR";
+  
   constructor(public dialog: MatDialog, private transactionService: TransactionService,
-     private accountService: AccountService, private router: Router) {}
+     private accountService: AccountService, private router: Router, private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
+    this.getDefaultCurrency();
     this.loadTransactions();
     this.loadAccounts();
   }
@@ -29,6 +32,7 @@ export class TransactionComponent {
   loadTransactions(): void {
     this.transactionService.getAllTransactions().subscribe(
       (transactions: TransactionDTO[]) => {
+        console.log(transactions.at(4))
         this.transactions = transactions;
 
       },
@@ -39,17 +43,7 @@ export class TransactionComponent {
   }
 
 
-  openTransactionDialog(): void {
-    const dialogRef = this.dialog.open(TransactionDialogComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Transaction data:', result);
-      }
-    });
-  }
+  
 
   onAccountChange(event: MatSelectChange): void {
     if (event.value==="all")  {
@@ -75,6 +69,14 @@ export class TransactionComponent {
       error => {
         console.error('Error fetching accounts:', error);
       }
+    );
+  }
+
+  getDefaultCurrency() {
+    this.currencyService.getDefaultCurrency().subscribe(response =>  {
+      console.log("currency" + response["currency"])
+      this.defaultCurrency=response["currency"]
+    }
     );
   }
 }

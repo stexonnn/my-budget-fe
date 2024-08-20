@@ -1,23 +1,31 @@
-<div class="account-list-container">
-    <div class="account-item">
-      <div class="account-balance">
+<div class="content">
+<div class="settings-list-container">
+    <div class="settings-item">
+      <div class="left">
         Set default currency:
+        </div>
+        <div class="right">
         <mat-form-field appearance="fill">
-            <mat-select (selectionChange)="updateDefaultValue($event)">
+            <mat-select [value]="defaultCurrency" (selectionChange)="updateDefaultCurrency($event)">
               <mat-option  value="EUR">EUR</mat-option>
               <mat-option  value="BTC">BTC</mat-option>
             </mat-select>
           </mat-form-field>
       </div>
     </div>
-    <div class="account-item">
-        <div class="account-balance">asd</div>
-      </div>
-      <div class="account-item">
+    
+      <div class="settings-item">
+        <div class="left">
         <a  href="#" (click)="deleteAllData($event)">Delete all data</a>
+    </div>
       </div>
 
-      <div class="account-item">
-        {{lastUpdatedDate}}
+      <div class="settings-item">
+        <div class="left">Exchange rate updated</div>
+        <div class="righ">{{lastUpdatedDate}}</div>
       </div>
     </div>
+
+<div class="footer">
+    Copyright "The Client" 2024
+</div>
