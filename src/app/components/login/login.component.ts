@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthRequestDTO } from '../../dto/AuthRequestDTO';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +19,11 @@ export class LoginComponent {
   constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+    this.loginForm = new FormGroup(
+      {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl ('', [Validators.required, Validators.minLength(8)]),
+    }) 
   }
 
   onSubmit() {
@@ -33,22 +36,32 @@ export class LoginComponent {
           this.router.navigate(['/account']);
         },
         error => {
-          if (error.status === 400) {
-            this.snackBar.open('Bad credentials', undefined, {
-              duration: 2000,
-            });
-          } else if(error.status === 404) {
-            this.snackBar.open('User with this email is not found', undefined, {
-              duration: 2000,
-            });
-          }
-           else {
-            this.snackBar.open('An error occurred', undefined, {
-              duration: 2000,
-            });
-          }
-        }
-      );
+            if (error instanceof HttpErrorResponse) {
+              // Check if the backend returned field-specific errors
+              if (error.error && error.error.fieldErrors) {
+                //
+                error.error.fieldErrors.forEach((fieldError: any) => {
+                  console.log(fieldError.field) 
+                  console.log(fieldError.message)
+                  this.snackBar.open(` ${fieldError.defaultMessage}`, undefined, {
+                    duration: 5000,
+                  });
+                });
+              } else {
+                this.snackBar.open(error.error.message || 'An error occurred. Please try again.', undefined, {
+                  duration: 5000,
+                });
+              }
+            } else {
+              //  generic error message for non-HTTP errors
+              this.snackBar.open('An unexpected error occurred. Please try again.', undefined, {
+                duration: 5000,
+              });
+            }
+            // Return an observable with the error message for further handling
+            return throwError(() => new Error(error.message || 'Unknown error'));
+          })
+      
     }
   }
 

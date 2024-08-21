@@ -43,34 +43,43 @@ export class RegisterComponent {
           const user = new UserDTO(formData);
           this.authService.registerUser(user).pipe(
             tap(response => {
+
               this.router.navigate(['/login']);
             }),
-            catchError(error =>{ if (error instanceof HttpErrorResponse) {
-              this.snackBar.open(error.error.message, undefined, {
-                duration: 2000,
-              });
-            } else {
-              this.snackBar.open(error.error.message, undefined, {
-                duration: 2000,
-              });
-            }
-            return throwError(() => new Error(error));
-          }
-          )).subscribe();
+            catchError(error => {
+              if (error instanceof HttpErrorResponse) {
+                // Check if the backend returned field-specific errors
+                if (error.error && error.error.fieldErrors) {
+                  //
+                  error.error.fieldErrors.forEach((fieldError: any) => {
+                    console.log(fieldError.field) 
+                    console.log(fieldError.message)
+                    this.snackBar.open(` ${fieldError.defaultMessage}`, undefined, {
+                      duration: 5000,
+                    });
+                  });
+                } else {
+                  this.snackBar.open(error.error.message || 'An error occurred. Please try again.', undefined, {
+                    duration: 5000,
+                  });
+                }
+              } else {
+                //  generic error message for non-HTTP errors
+                this.snackBar.open('An unexpected error occurred. Please try again.', undefined, {
+                  duration: 5000,
+                });
+              }
+              // Return an observable with the error message for further handling
+              return throwError(() => new Error(error.message || 'Unknown error'));
+            })
+          ).subscribe();
         } else {
           this.snackBar.open('Something went wrong...', undefined, {
             duration: 2000,
           });
         }
       }
-    /*
-    mapErrorMessage(errorMessage: string): string {    
-      if (errorMessage.includes('email')) {
-        return 'Email is already in use. Please choose a different email.';
-      } else if (errorMessage.includes('registration')) {
-        return 'Registration failed. Please try again later.';
-      } else {
-        return 'An unknown error occurred. Please try again later.';
-      }
-    }*/
+
+    
+   
   }

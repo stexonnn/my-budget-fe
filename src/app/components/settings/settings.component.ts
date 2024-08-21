@@ -13,18 +13,27 @@ import { format } from 'path';
 })
 export class SettingsComponent {
   lastUpdatedDate!: string;
-  defaultCurrency: string ="EUR";
+  defaultCurrency: string ="eur";
+  currencies: string[]=[];
 
   constructor(private accountService: AccountService, private currencyService: CurrencyService, private snackBar: MatSnackBar)  {}
 
   ngOnInit() {
     this.lastUpdated();
+    this.loadCurrencies();
+    this.getDefaultCurrency();
   }
 
    lastUpdated() {
     this.currencyService.getLastUpdated().subscribe(date => {
       this.lastUpdatedDate = date["lastUpdated"]}
     );
+    }
+
+    loadCurrencies() {
+      this.currencyService.getAllCurrencies().subscribe( (currencies) => { 
+        this.currencies = currencies;
+      })
     }
   
     updateDefaultCurrency(event:any) {
@@ -42,6 +51,12 @@ export class SettingsComponent {
         }
       });
     }  
+
+    getDefaultCurrency() {
+      this.currencyService.getDefaultCurrency().subscribe(response => {
+        this.defaultCurrency=response["currency"]}
+      );
+    }
     
 
   deleteAllData(event: Event) {

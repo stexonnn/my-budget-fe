@@ -1,54 +1,59 @@
 html, body {
   height: 100%;
   margin: 0;
+  font-size: 16px; 
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
-  margin-top: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px; 
 }
+
 
 .transaction-container {
-  width: 39%;
-  margin: 1em;
-  margin-left: 32em;
-  position: relative;
+  display: flex;
+  flex-direction: column; 
+  width: 52%;
+  margin: 1em auto;
   padding: 10px;
-  display: flex; 
-  align-items: flex-start; 
 }
 
-.left {
-  flex: 1; 
-  margin-right: 7em; 
+@media (min-width: 768px) {
+  .transaction-container {
+    flex-direction: row; /* Display side by side on larger screens */
+    justify-content: space-between;
+  }
+
+  .left {
+    flex: 3;
+    margin-right: 2em;
+  }
+
+  .right {
+    flex: 1;
+  }
 }
 
-.right {
-  width: 9em; 
-  margin-top: .8em; 
+.mat-form-field {
+  width: 80%;
+  max-width: 150px;
+  font-size: 0.9em;
 }
-.list-left {
-  padding: .5em;
-}
-.transaction-description {
-font-size: 1.2em;
-}
-.transaction-account {
-  color: rgba(0, 0, 0, 0.567);
-}
-.account-list {
-  width: 100%; 
-  padding-top: 0;
-  margin-bottom: 2em;
+
+@media (max-width: 600px) {
+  .mat-form-field {
+    max-width: 80%;
+  }
 }
 
 
 .transaction-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%; 
+  flex-direction: column;
+  width: 100%;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
@@ -56,24 +61,17 @@ font-size: 1.2em;
   background-color: #f9f9f9;
 }
 
-.transaction-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%; 
+@media (min-width: 768px) {
+  .transaction-item {
+    flex-direction: row; /* Align items horizontally on larger screens */
+    justify-content: space-between;
+  }
 }
 
-.mat-form-field {
-  width: 100%;
+.account-list {
+  margin-top: .9em;
 }
-
 
 .transaction-amount-default {
   color: #01000095;
-}
-
-
-.transaction-amount {
-  flex: 1;
-  text-align: right;
 }

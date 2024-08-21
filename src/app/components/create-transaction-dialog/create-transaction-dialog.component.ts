@@ -1,11 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TransactionService } from '../../services/transaction.service';
-import { TransactionTypeDTO } from '../../dto/TransactionTypeDTO';
 import { AccountDTO } from '../../dto/AccountDTO';
 import { AccountService } from '../../services/account.service';
 import { TransactionDTO } from '../../dto/TransactionDTO';
+
+export function amountValidator(formGroup: FormGroup): ValidationErrors | null {
+  const amountControl = formGroup.get('amount');
+  const transactionTypeControl = formGroup.get('type');
+
+  if (!amountControl || !transactionTypeControl) {
+    return null;
+  }
+
+  const amount = amountControl.value;
+  const transactionType = transactionTypeControl.value;
+
+  if ((transactionType === 'income' && amount < 0) || (transactionType === 'expense' && amount>=0)) {
+    console.log("greskaaa");
+    return { amountError: true };}
+  
+
+  return null; 
+}
 
 @Component({
   selector: 'app-transaction-dialog',
@@ -14,7 +32,6 @@ import { TransactionDTO } from '../../dto/TransactionDTO';
 })
 export class TransactionDialogComponent implements OnInit {
   transactionForm: FormGroup;
-  transactionTypes: TransactionTypeDTO[] = [];
   userAccounts: AccountDTO[] = [];
 
   constructor(
@@ -25,28 +42,18 @@ export class TransactionDialogComponent implements OnInit {
   ) {
     this.transactionForm = this.fb.group({
       description: ['', Validators.required],
-      type: ['', Validators.required],
+      type: ['Expense', Validators.required],
       account: ['', Validators.required],
       amount: ['', Validators.required]
-    });
+    },  { validators: amountValidator });
+    this.transactionForm?.get('type')?.setValue('expense');  
+  
   }
 
   ngOnInit(): void {
-    this.loadTransactionTypes();
     this.loadUserAccounts();
   }
 
-  loadTransactionTypes(): void {
-    this.transactionService.getAllTransactionTypes().subscribe(
-      (types: TransactionTypeDTO[]) => {
-        this.transactionTypes = types;
-
-      },
-      (error: any) => {
-        console.error('Error loading transaction types', error);
-      }
-    );
-  }
 
   loadUserAccounts(): void {
     this.accountService.getUserAccounts().subscribe(

@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../environments/environment.development';
-import { TransactionTypeDTO } from '../dto/TransactionTypeDTO';
 import { TransactionDTO } from '../dto/TransactionDTO';
 import { AccountDTO } from '../dto/AccountDTO';
 
@@ -22,9 +21,6 @@ export class TransactionService {
     return this.http.get<TransactionDTO[]>(`${environment.apiUrl}transactions/get/${account_Id}`);
   }
 
-  getAllTransactionTypes(): Observable<TransactionTypeDTO[]> {
-    return this.http.get<TransactionTypeDTO[]>(`${environment.apiUrl}transactionType/getAll`);
-  }
 
   saveTransaction(transaction: any): Observable<any> {
     alert(transaction.type + transaction.description + transaction.account + transaction.amount);

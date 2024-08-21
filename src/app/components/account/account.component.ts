@@ -14,12 +14,12 @@ import { CurrencyService } from '../../services/currency.service';
 export class AccountComponent {
 
   accounts: AccountDTO[] = [];
-  defaultCurrency: string ="EUR";
+  defaultCurrency: string ="";
   constructor(private accountService: AccountService, public dialog: MatDialog,private router: Router, private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    this.loadAccounts();
     this.getDefaultCurrency();
+    this.loadAccounts();
   }
 
   openCreateAccountDialog(): void {
@@ -51,7 +51,7 @@ export class AccountComponent {
     this.currencyService.getDefaultCurrency().subscribe(response => {
       console.log(response)
       console.log(response["currency"])
-      this.defaultCurrency=response["currency"].toUpperCase()}
+      this.defaultCurrency=response["currency"]}
     );
   }
 

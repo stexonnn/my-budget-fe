@@ -36,11 +36,11 @@
 
 .left {
     flex: 1;
-    margin-right: 1em;
+    margin-right: 0;
 }
 
 .right {
-    margin-top: .5em;
+    margin-top: .6em;
 }
 
 hr {
