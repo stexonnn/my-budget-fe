@@ -2,21 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
 ### Getting started  ###
-1. Clone the repository
-   `bash
+ Clone the repository
    git clone https://github.com/stexonnn/my-budget-fe/tree/develop
    cd my-budget-fe
-   
-2. Install dependencies
-   cd Angular
-   npm install
+      npm install
    ng add @angular/material
 
-3. Start the development server
-   ng serve
-4. the app will be available at http://localhost:4200
+   ng serve ( Start the development server )
+the app will be available at http://localhost:4200
    
-5. configure environment variables
+ configure environment variables
    export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api'
