@@ -14,7 +14,7 @@ export class InvalidTokenInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error.status === 403 || error.status === 401) {
           this.userService.logOut();
-          this.router.navigate(['/account']);
+          this.router.navigate(['/login']);
         }
         return throwError(error);
       })

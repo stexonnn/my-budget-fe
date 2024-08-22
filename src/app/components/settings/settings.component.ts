@@ -63,15 +63,11 @@ export class SettingsComponent {
     event.preventDefault();
     this.accountService.deleteAllData().subscribe(
         () => {
-            console.log('Data deleted successfully');
             this.snackBar.open('Data deleted successfully:', undefined, {
               duration: 2000,
             });
-            
-
         },
         (error) => {
-            console.error('Error deleting data:', error);
             this.snackBar.open('Data deleted successfully:', undefined, {
               duration: 2000,
             });

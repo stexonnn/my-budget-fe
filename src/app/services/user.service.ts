@@ -47,4 +47,21 @@ export class UserService {
       storage.removeItem('token');
     }
   }
+
+  isTokenExpired() {
+    
+    const storage = this.getStorage();
+    const token = storage?.getItem('authToken');
+    if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Math.floor(Date.now() / 1000);
+    if ( payload.exp < currentTime) {
+      if (storage) {
+        storage.removeItem('token');
+      }
+    }
+
+    
+  }
+}
 }

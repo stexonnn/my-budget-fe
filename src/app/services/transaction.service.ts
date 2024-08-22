@@ -23,8 +23,6 @@ export class TransactionService {
 
 
   saveTransaction(transaction: any): Observable<any> {
-    alert(transaction.type + transaction.description + transaction.account + transaction.amount);
-    
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>((`${environment.apiUrl}transactions/save`),transaction,{headers});
   }

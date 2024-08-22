@@ -16,15 +16,18 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 export class LoginComponent {
   loginForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService, private router: Router
+    , private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.userService.isTokenExpired();
     this.loginForm = new FormGroup(
       {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl ('', [Validators.required, Validators.minLength(8)]),
     }) 
   }
+
 
   onSubmit() {
     if (this.loginForm && this.loginForm.valid) {

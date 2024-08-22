@@ -19,7 +19,6 @@ export class CurrencyService {
   }
 
   updateDefaultCurrency(defaultCurrency: string): Observable<string> {
-    alert(defaultCurrency);
     return this.http.put<string>(`${environment.apiUrl}currency/updateDefaultCurrency`, defaultCurrency);
   }
 
