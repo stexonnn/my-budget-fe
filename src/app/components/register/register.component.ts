@@ -52,8 +52,7 @@ export class RegisterComponent {
                 if (error.error && error.error.fieldErrors) {
                   //
                   error.error.fieldErrors.forEach((fieldError: any) => {
-                    console.log(fieldError.field) 
-                    console.log(fieldError.message)
+                    
                     this.snackBar.open(` ${fieldError.defaultMessage}`, undefined, {
                       duration: 5000,
                     });

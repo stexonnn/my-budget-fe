@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TransactionDialogComponent } from '../create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionDTO } from '../../dto/TransactionDTO';
 import { TransactionService } from '../../services/transaction.service';
 import { AccountDTO } from '../../dto/AccountDTO';
@@ -8,6 +7,7 @@ import { AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
 import { CurrencyService } from '../../services/currency.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-transaction',
@@ -20,7 +20,7 @@ export class TransactionComponent {
    accounts: AccountDTO[] = []
    defaultCurrency: string= "EUR";
   
-  constructor(public dialog: MatDialog, private transactionService: TransactionService,
+  constructor(public dialog: MatDialog, private transactionService: TransactionService, private snackBar: MatSnackBar,
      private accountService: AccountService, private router: Router, private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
@@ -37,7 +37,9 @@ export class TransactionComponent {
 
       },
       (error: any) => {
-        console.error('Error loading transaction types', error);
+        this.snackBar.open('Error loading transaction types', undefined, {
+          duration: 2000,
+        });
       }
     );
   }
@@ -56,7 +58,10 @@ export class TransactionComponent {
       this.transactions = transactions;
     },
     (error: any) => {
-      console.error('Error loading transaction types', error);
+      this.snackBar.open('Error loading transaction types', undefined, {
+        duration: 2000,
+      });
+      
     });
   }
   }
@@ -67,7 +72,10 @@ export class TransactionComponent {
         this.accounts = accounts;
       },
       error => {
-        console.error('Error fetching accounts:', error);
+        this.snackBar.open('Error fetching accounts', undefined, {
+          duration: 2000,
+        });
+        
       }
     );
   }

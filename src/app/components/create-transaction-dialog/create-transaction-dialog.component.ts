@@ -5,6 +5,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { AccountDTO } from '../../dto/AccountDTO';
 import { AccountService } from '../../services/account.service';
 import { TransactionDTO } from '../../dto/TransactionDTO';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export function amountValidator(formGroup: FormGroup): ValidationErrors | null {
   const amountControl = formGroup.get('amount');
@@ -35,6 +36,7 @@ export class TransactionDialogComponent implements OnInit {
   userAccounts: AccountDTO[] = [];
 
   constructor(
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private accountService: AccountService,
     private transactionService: TransactionService,
@@ -61,7 +63,9 @@ export class TransactionDialogComponent implements OnInit {
         this.userAccounts = accounts;
       },
       (error: any) => {
-        console.error('Error loading user accounts', error);
+        this.snackBar.open('Error loading user accounts', undefined, {
+          duration: 2000,
+        });
       }
     );
   }
@@ -72,10 +76,16 @@ export class TransactionDialogComponent implements OnInit {
       const transactionDTO = new TransactionDTO(transactionData.description, transactionData.amount,
         transactionData.type, transactionData.account,0,"","");
 
-      this.transactionService.saveTransaction(transactionDTO) .subscribe(
-        response => console.log('Save successful:', response),
-        error => console.error('Save failed:', error)
-      );;
+      this.transactionService.saveTransaction(transactionDTO).subscribe(
+        response => 
+        this.snackBar.open('Save successful', undefined, {
+          duration: 2000,
+        }),
+        error => 
+        this.snackBar.open('Saving failed', undefined, {
+          duration: 2000,
+        })
+      );
       this.dialogRef.close(transactionData);
     }
   }

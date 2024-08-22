@@ -5,6 +5,7 @@ import { CreateAccountDialogComponent } from '../create-account-dialog/create-ac
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CurrencyService } from '../../services/currency.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account',
@@ -15,7 +16,8 @@ export class AccountComponent {
 
   accounts: AccountDTO[] = [];
   defaultCurrency: string ="";
-  constructor(private accountService: AccountService, public dialog: MatDialog,private router: Router, private currencyService: CurrencyService) {}
+  constructor(private accountService: AccountService, public dialog: MatDialog,
+    private router: Router, private currencyService: CurrencyService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.getDefaultCurrency();
@@ -42,7 +44,10 @@ export class AccountComponent {
         this.accounts = accounts;
       },
       error => {
-        console.error('Error fetching accounts:', error);
+        
+        this.snackBar.open('Error fetching accounts', undefined, {
+          duration: 2000,
+        });
       }
     );
   }

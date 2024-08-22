@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
 import { CurrencyService } from '../../services/currency.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -16,6 +17,7 @@ export class CreateAccountDialogComponent {
   currencies: string[] = []
 
   constructor(private currencyService: CurrencyService,
+    private snackBar: MatSnackBar,
     private accountService: AccountService,
     private fb: FormBuilder,
     private router: Router,
@@ -45,7 +47,6 @@ export class CreateAccountDialogComponent {
         currency: this.createAccountForm.get('currency')?.value,
         balanceInDefaultCurrency: 0
       };
-      alert(accountDTO.balance)
 
       this.accountService.saveAccount(accountDTO).subscribe(
         (account) => {
@@ -54,7 +55,10 @@ export class CreateAccountDialogComponent {
 
         },
         error => {
-          console.error('Error saving account', error);
+          
+          this.snackBar.open('Error saving account', undefined, {
+            duration: 2000,
+          });
         }
       );
     }
