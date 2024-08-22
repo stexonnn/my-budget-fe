@@ -17,7 +17,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private userService: UserService, private router: Router
-    , private snackBar: MatSnackBar) { }
+    ,private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.userService.isTokenExpired();
@@ -36,7 +36,9 @@ export class LoginComponent {
       this.auth.login(authRequest).subscribe(
         response => {
           this.userService.setToken(response.token);
-          this.router.navigate(['/account']);
+          this.router.navigate(['/account']).then(() => {
+            window.location.reload();
+          });;
         },
         error => {
             if (error instanceof HttpErrorResponse) {

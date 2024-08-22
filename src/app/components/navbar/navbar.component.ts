@@ -18,6 +18,8 @@ export class NavbarComponent {
     this.isUserLoggedIn = this.userService.isLoggedIn();
   }
 
+ 
+
   logOut(): void {
     this.userService.logOut();
     this.isUserLoggedIn = false;

@@ -8,6 +8,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { tap } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterComponent {
   registrationForm!: FormGroup;
   failedRegisterMsg: string='';
 
-  constructor(private authService: AuthService,private router: Router,private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService,private router: Router,private userService: UserService, private snackBar: MatSnackBar) {
     this.registrationForm = new FormGroup(
       {
       firstName: new FormControl( '', [Validators.required]),
@@ -43,8 +44,10 @@ export class RegisterComponent {
           const user = new UserDTO(formData);
           this.authService.registerUser(user).pipe(
             tap(response => {
-
-              this.router.navigate(['/login']);
+              this.userService.setToken(response.token);
+              this.router.navigate(['/account']).then(() => {
+                window.location.reload();
+              });;;
             }),
             catchError(error => {
               if (error instanceof HttpErrorResponse) {

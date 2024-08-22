@@ -19,9 +19,9 @@ export class AuthService {
   }
 
 
-  public registerUser(user: UserDTO): Observable<UserDTO> {
+  public registerUser(user: UserDTO): Observable<AuthResponseDTO> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<UserDTO>((`${environment.apiUrl}auth/register`),user,{headers});
+    return this.http.post<AuthResponseDTO>((`${environment.apiUrl}auth/register`),user,{headers});
    }
 
   
