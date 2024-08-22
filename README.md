@@ -5,9 +5,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Navigate to the Angular project directory and install the necessary packages:
 
-1.npm install
+1. npm install
 2. ng add @angular/material
-
 
 
 ## Development server
